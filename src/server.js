@@ -3,12 +3,15 @@ import dotenv from "dotenv"; //  imports the dotenv package, which is used to ma
 import {initDB} from "./config/db.js";
 import rateLimiter from "./middleware/rateLimiter.js";
 import Transactionsroutes from "./routes/Transactionsroutes.js";
+import job from "./config/cron.js"
 
 dotenv.config()
 
 // creating a variable
 const app= express(); // calls the Express function, which creates an Express application 
 
+// starting the cron job
+if(process.env.NODE_ENV === 'production') job.start();
 //  middleware
 app.use(express.json()); // NB: this line must be above all routes
 app.use(rateLimiter);
